@@ -1,12 +1,12 @@
-namespace KindQuestBE.Models;
+namespace KindQuest.Models;
 
-public class Task
+public class Job
 {
     public int Id { get; set; }
     public int ProjectId { get; set; }
     public int UserId { get; set; }
-    public string TaskName { get; set; }
-    public string TaskDescription { get; set; }
+    public string JobName { get; set; }
+    public string JobDescription { get; set; }
     public DateTime DatePosted { get; set; }
     public DateTime DateCompleted { get; set; }
     public bool IsCompleted { get; set; }

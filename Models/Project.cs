@@ -1,4 +1,4 @@
-namespace KindQuestBE.Models;
+namespace KindQuest.Models;
 
 public class Project
 {
