@@ -1,4 +1,4 @@
-namespace KindQuestBE.Models;
+namespace KindQuest.Models;
     public class User
 {
     public int Id { get; set; }
@@ -10,5 +10,5 @@ namespace KindQuestBE.Models;
     public string ProfilePic { get; set; }
 
     public List<Project> Projects { get; set; }
-    public List<Task> Tasks { get; set; }
+    public List<Job> Jobs { get; set; }
 }
