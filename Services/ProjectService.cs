@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using KindQuest.Interfaces;
 using KindQuest.Data;
 
-namespace KindQuestBE.Services
+namespace KindQuest.Services
 {
     public class ProjectService : IProjectRepository
     {

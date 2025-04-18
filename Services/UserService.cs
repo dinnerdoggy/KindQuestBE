@@ -1,7 +1,8 @@
 ﻿using KindQuest.Models;
 using KindQuest.Interfaces;
+using KindQuest.Data;
 
-namespace KindQuestBE.Services
+namespace KindQuest.Services
 {
     public class UserService : IUserRepository
     {
@@ -49,5 +50,3 @@ namespace KindQuestBE.Services
         }
     }
 }
-
-
