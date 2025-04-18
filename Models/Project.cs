@@ -11,9 +11,9 @@ public class Project
     public bool IsCompleted { get; set; }
     public string Location { get; set; }
     public string ProjectImg { get; set; }
-    public string TaskList { get; set; }
+    public string JobList { get; set; }
 
     public User User { get; set; }
     public List<User> Volunteers { get; set; }
-    public List<Task> Tasks { get; set; }
+    public List<Job> Jobs { get; set; }
 }
