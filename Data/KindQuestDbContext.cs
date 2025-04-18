@@ -23,7 +23,7 @@ public class KindQuestDbContext : DbContext
 
         // Seed Projects
         modelBuilder.Entity<Project>().HasData(
-            new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg", TaskList = "Collect trash,Trim bushes" }
+            new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg", JobList = "Collect trash,Trim bushes" }
         );
 
         // Seed Jobs
