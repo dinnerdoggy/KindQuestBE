@@ -2,7 +2,7 @@
 using KindQuest.Repositories;
 using KindQuest.Interfaces;
 
-namespace KindQuestBE.Services
+namespace KindQuest.Services
 {
     public class JobService : IJobRepository
     {
