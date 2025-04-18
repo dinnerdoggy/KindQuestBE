@@ -5,7 +5,7 @@ public class KindQuestDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Project> Projects { get; set; }
-    public DbSet<Task> Tasks { get; set; }
+    public DbSet<Task> Jobs { get; set; }
 
     public KindQuestDbContext(DbContextOptions<KindQuestDbContext> options) : base(options) { }
 
@@ -26,7 +26,7 @@ public class KindQuestDbContext : DbContext
             new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg", TaskList = "Collect trash,Trim bushes" }
         );
 
-        // Seed Tasks
+        // Seed Jobs
         modelBuilder.Entity<Job>().HasData(
             new Job { Id = 1, ProjectId = 1, UserId = 1, JobName = "Pick up trash", JobDescription = "Collect litter from the ground.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(1), IsCompleted = false }
         );
