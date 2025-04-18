@@ -1,5 +1,6 @@
 ﻿using KindQuest.Models;
 using KindQuest.Interfaces;
+using KindQuest.Data;
 
 namespace KindQuest.Repositories
 {
