@@ -8,21 +8,21 @@ namespace KindQuestBE.Services
         private readonly KindQuestDbContext _context;
         public UserService(KindQuestDbContext context) => _context = context;
 
-        public async Task<User> GetUserById(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             return await _context.Users.ToListAsync();
         }
-        public async Task<User> CreateUser(User user)
+        public async Task<User> CreateUserAsync(User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
         }
-        public async Task<User> UpdateUser(int id, User user)
+        public async Task<User> UpdateUserAsync(int id, User user)
         {
             var existingUser = await _context.Users.FindAsync(id);
             if (existingUser == null)
@@ -36,7 +36,7 @@ namespace KindQuestBE.Services
             return existingUser;
         }
 
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null)

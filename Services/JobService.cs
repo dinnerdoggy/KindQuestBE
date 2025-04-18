@@ -1,14 +1,55 @@
-<<<<<<< HEAD
-﻿using KindQuestBE.Models;
-using KindQuestBE.Repositories;
-using KindQuestBE.Interfaces;
+﻿using KindQuest.Models;
+using KindQuest.Repositories;
+using KindQuest.Interfaces;
 
 namespace KindQuestBE.Services
 {
-    public class JobService
+    public class JobService : IJobRepository
     {
+        private readonly KindQuestDbContext _context;
+        public JobService(KindQuestDbContext context)
+        {
+            _context = context;
+        }
+        public async Task<IEnumerable<Job>> GetAllAsync()
+        {
+            return await _context.Jobs.ToListAsync();
+        }
+        public async Task<Job> GetByIdAsync(int id)
+        {
+            return await _context.Jobs.FindAsync(id);
+        }
+        public async Task<Job> CreateAsync(Job job)
+        {
+            _context.Jobs.Add(job);
+            await _context.SaveChangesAsync();
+            return job;
+        }
+        public async Task<Job> UpdateAsync(int id, Job job)
+        {
+            var existingJob = await _context.Jobs.FindAsync(id);
+            if (existingJob == null)
+            {
+                return null;
+            }
+            existingJob.Title = job.Title;
+            existingJob.Description = job.Description;
+            existingJob.Company = job.Company;
+            existingJob.Location = job.Location;
+            existingJob.Salary = job.Salary;
+            await _context.SaveChangesAsync();
+            return existingJob;
+        }
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var job = await _context.Jobs.FindAsync(id);
+            if (job == null)
+            {
+                return false;
+            }
+            _context.Jobs.Remove(job);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
-=======
-// Services
->>>>>>> e49f5b1d1ce9d8b11d2216519be38b1ddc7b1cb3

@@ -10,14 +10,14 @@ public static class UserEndpoints
         var group = routes.MapGroup("/api/users").WithTags("Users");
         group.MapGet("/", async (IUserRepository userService) =>
         {
-            return await userService.GetAllUsers();
+            return await userService.GetAllUsersAsync();
         })
         .WithName("GetAllUsers")
         .Produces<List<User>>(StatusCodes.Status200OK);
 
         group.MapGet("/{id}", async (int id, IUserRepository userService) =>
         {
-            return await userService.GetUserById(id);
+            return await userService.GetUserByIdAsync(id);
         })
         .WithName("GetUserById")
         .Produces<User>(StatusCodes.Status200OK)
@@ -25,17 +25,17 @@ public static class UserEndpoints
 
         group.MapPost("/", async (User user, IUserRepository userService) =>
         {
-            return await userService.CreateUser(user);
+            return await userService.CreateUserAsync(user);
         });
 
         group.MapPut("/{id}", async (int id, User user, IUserRepository userService) =>
         {
-            return await userService.UpdateUser(id, user);
+            return await userService.UpdateUserAsync(id, user);
         });
 
         group.MapDelete("/{id}", async (int id, IUserRepository userService) =>
         {
-            return await userService.DeleteUser(id);
+            return await userService.DeleteUserAsync(id);
         });
 
     }

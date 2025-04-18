@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using KindQuest.Models;
+﻿using KindQuest.Models;
 using KindQuest.Interfaces;
 
 namespace KindQuest.Repositories
@@ -11,23 +10,23 @@ namespace KindQuest.Repositories
         {
             _context = context;
         }
-        public Task<User> GetUserById(int id)
+        public Task<User> GetUserByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
-        public Task<List<User>> GetAllUsers()
+        public Task<List<User>> GetAllUsersAsync()
         {
             throw new NotImplementedException();
         }
-        public Task<User> CreateUser(User user)
+        public Task<User> CreateUserAsync(User user)
         {
             throw new NotImplementedException();
         }
-        public Task<User> UpdateUser(int id, User user)
+        public Task<User> UpdateUserAsync(int id, User user)
         {
             throw new NotImplementedException();
         }
-        public Task<bool> DeleteUser(int id)
+        public Task<bool> DeleteUserAsync(int id)
         {
             throw new NotImplementedException();
         }
