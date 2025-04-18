@@ -5,7 +5,7 @@ public class KindQuestDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Project> Projects { get; set; }
-    public DbSet<Task> Jobs { get; set; }
+    public DbSet<Job> Jobs { get; set; }
 
     public KindQuestDbContext(DbContextOptions<KindQuestDbContext> options) : base(options) { }
 
