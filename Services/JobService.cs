@@ -1,4 +1,5 @@
-﻿using KindQuest.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using KindQuest.Models;
 using KindQuest.Repositories;
 using KindQuest.Interfaces;
 

@@ -1,7 +1,6 @@
 ﻿using KindQuest.Models;
 using Microsoft.EntityFrameworkCore;
 using KindQuest.Interfaces;
-using KindQuest.Data;
 
 namespace KindQuestBE.Services
 {
