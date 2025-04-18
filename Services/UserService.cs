@@ -3,7 +3,7 @@ using KindQuest.Models;
 using KindQuest.Interfaces;
 using KindQuest.Data;
 
-namespace KindQuestBE.Services
+namespace KindQuest.Services
 {
     public class UserService : IUserRepository
     {
@@ -12,7 +12,16 @@ namespace KindQuestBE.Services
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+           if (id <= 0)
+            {
+                return (User)Results.BadRequest("User Id Not Found");
+            }
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return (User)Results.BadRequest("User Not Found");
+            }
+            return user;
         }
         public async Task<List<User>> GetAllUsersAsync()
         {
@@ -29,11 +38,10 @@ namespace KindQuestBE.Services
             var existingUser = await _context.Users.FindAsync(id);
             if (existingUser == null)
             {
-                return null;
+                return (User)Results.BadRequest("User Not Found");
             }
-            existingUser.Name = user.Name;
+            existingUser.FirstName = user.LastName;
             existingUser.Email = user.Email;
-            existingUser.Password = user.Password;
             await _context.SaveChangesAsync();
             return existingUser;
         }

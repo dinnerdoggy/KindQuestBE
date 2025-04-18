@@ -18,7 +18,16 @@ namespace KindQuest.Services
         }
         public async Task<Job> GetByIdAsync(int id)
         {
-            return await _context.Jobs.FindAsync(id);
+            if (id <= 0)
+            {
+                return (Job)Results.BadRequest("Job Id Not Found");
+            }
+            var job = await _context.Jobs.FindAsync(id);
+            if (job == null)
+            {
+                return (Job)Results.BadRequest("Job Not Found");
+            }
+            return job;
         }
         public async Task<Job> CreateAsync(Job job)
         {
@@ -33,11 +42,8 @@ namespace KindQuest.Services
             {
                 return null;
             }
-            existingJob.Title = job.Title;
-            existingJob.Description = job.Description;
-            existingJob.Company = job.Company;
-            existingJob.Location = job.Location;
-            existingJob.Salary = job.Salary;
+            existingJob.JobName = job.JobName;
+            existingJob.JobDescription = job.JobDescription;
             await _context.SaveChangesAsync();
             return existingJob;
         }

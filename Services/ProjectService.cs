@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using KindQuest.Interfaces;
 using KindQuest.Data;
 
-namespace KindQuestBE.Services
+namespace KindQuest.Services
 {
     public class ProjectService : IProjectRepository
     {
@@ -16,7 +16,16 @@ namespace KindQuestBE.Services
         }
         public async Task<Project> GetByIdAsync(int id)
         {
-            return await _context.Projects.FindAsync(id);
+            if (id <= 0)
+            {
+                return (Project)Results.BadRequest("Id not found");
+            }
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return (Project)Results.BadRequest("Project not found");
+            }
+            return project;
         }
         public async Task<Project> CreateAsync(Project project)
         {
@@ -31,10 +40,8 @@ namespace KindQuestBE.Services
             {
                 return null;
             }
-            existingProject.Name = project.Name;
-            existingProject.Description = project.Description;
-            existingProject.StartDate = project.StartDate;
-            existingProject.EndDate = project.EndDate;
+            existingProject.ProjectName = project.ProjectName;
+            existingProject.ProjectDescription = project.ProjectDescription;
             await _context.SaveChangesAsync();
             return existingProject;
         }

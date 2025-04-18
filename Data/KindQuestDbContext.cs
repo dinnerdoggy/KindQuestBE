@@ -12,10 +12,30 @@ public class KindQuestDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Configure many-to-many: User <-> Project
+        // One-to-Many: User (creator) -> Projects
+        modelBuilder.Entity<Project>()
+            .HasOne(p => p.Creator)
+            .WithMany(u => u.CreatedProjects)
+            .HasForeignKey(p => p.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Many-to-Many: Users <-> Projects (volunteers)
         modelBuilder.Entity<User>()
-            .HasMany(u => u.Projects)
-            .WithMany(p => p.Volunteers);
+            .HasMany(u => u.VolunteeredProjects)
+            .WithMany(p => p.Volunteers)
+            .UsingEntity(j => j.ToTable("UserProjects"));
+
+        // One-to-Many: User -> Jobs
+        modelBuilder.Entity<Job>()
+            .HasOne(j => j.User)
+            .WithMany(u => u.Jobs)
+            .HasForeignKey(j => j.UserId);
+
+        // One-to-Many: Project -> Jobs
+        modelBuilder.Entity<Job>()
+            .HasOne(j => j.Project)
+            .WithMany()
+            .HasForeignKey(j => j.ProjectId);
 
         // Seed Users
         modelBuilder.Entity<User>().HasData(
@@ -24,7 +44,7 @@ public class KindQuestDbContext : DbContext
 
         // Seed Projects
         modelBuilder.Entity<Project>().HasData(
-            new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg"}
+            new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg" }
         );
 
         // Seed Jobs

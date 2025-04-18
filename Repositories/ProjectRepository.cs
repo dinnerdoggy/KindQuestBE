@@ -16,7 +16,16 @@ namespace KindQuest.Repositories
         }
         public async Task<Project> GetByIdAsync(int id)
         {
-            return await _context.Projects.FindAsync(id);
+            if (id <= 0)
+            {
+                return (Project)Results.BadRequest("Id not found");
+            }
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return (Project)Results.BadRequest("Project not found");
+            }
+            return project;
         }
         public async Task<Project> CreateAsync(Project project)
         {
@@ -29,12 +38,10 @@ namespace KindQuest.Repositories
             var existingProject = await _context.Projects.FindAsync(id);
             if (existingProject == null)
             {
-                return null;
+                return (Project)Results.BadRequest("Project not found");
             }
-            existingProject.Name = project.Name;
-            existingProject.Description = project.Description;
-            existingProject.StartDate = project.StartDate;
-            existingProject.EndDate = project.EndDate;
+            existingProject.ProjectName = project.ProjectName;
+            existingProject.ProjectDescription = project.ProjectDescription;
             await _context.SaveChangesAsync();
             return existingProject;
         }
