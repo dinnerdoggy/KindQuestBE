@@ -1,56 +1,53 @@
 using KindQuest.Models;
-using KindQuest.Repositories;
 using KindQuest.Interfaces;
-using KindQuest.Data;
-using Microsoft.EntityFrameworkCore;
-namespace KindQuest.Services
+
+namespace KindQuest.EndPoints
 {
-    public class JobService : IJobRepository
+    public static class JobEndpoints
     {
-        private readonly KindQuestDbContext _context;
-        public JobService(KindQuestDbContext context)
+        public static void MapJobEndpoints(this IEndpointRouteBuilder routes)
         {
-            _context = context;
-        }
-        public async Task<IEnumerable<Job>> GetAllAsync()
-        {
-            return await _context.Jobs.ToListAsync();
-        }
-        public async Task<Job> GetByIdAsync(int id)
-        {
-            return await _context.Jobs.FindAsync(id);
-        }
-        public async Task<Job> CreateAsync(Job job)
-        {
-            _context.Jobs.Add(job);
-            await _context.SaveChangesAsync();
-            return job;
-        }
-        public async Task<Job> UpdateAsync(int id, Job job)
-        {
-            var existingJob = await _context.Jobs.FindAsync(id);
-            if (existingJob == null)
+            routes.MapGet("/jobs", async (IJobRepository repo) =>
             {
-                return null;
-            }
-            existingJob.JobName = job.JobName;
-            existingJob.JobDescription = job.JobDescription;
-            existingJob.DatePosted = job.DatePosted;
-            existingJob.DateCompleted = job.DateCompleted;
-            existingJob.IsCompleted = job.IsCompleted;
-            await _context.SaveChangesAsync();
-            return existingJob;
-        }
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var job = await _context.Jobs.FindAsync(id);
-            if (job == null)
+                return await repo.GetAllAsync();
+            })
+            .WithName("GetAllJobs")
+            .Produces<List<Job>>(StatusCodes.Status200OK);
+
+            routes.MapGet("/jobs/{id}", async (IJobRepository repo, int id) =>
             {
-                return false;
-            }
-            _context.Jobs.Remove(job);
-            await _context.SaveChangesAsync();
-            return true;
+                var job = await repo.GetByIdAsync(id);
+                return job is not null ? Results.Ok(job) : Results.NotFound();
+            })
+            .WithName("GetJobById")
+            .Produces<Job>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
+
+            routes.MapPost("/jobs", async (IJobRepository repo, Job job) =>
+            {
+                var created = await repo.CreateAsync(job);
+                return Results.Created($"/jobs/{created.Id}", created);
+            })
+            .WithName("CreateJob")
+            .Produces<Job>(StatusCodes.Status201Created);
+
+            routes.MapPut("/jobs/{id}", async (IJobRepository repo, int id, Job job) =>
+            {
+                var updated = await repo.UpdateAsync(id, job);
+                return updated is not null ? Results.Ok(updated) : Results.NotFound();
+            })
+            .WithName("UpdateJob")
+            .Produces<Job>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
+
+            routes.MapDelete("/jobs/{id}", async (IJobRepository repo, int id) =>
+            {
+                var success = await repo.DeleteAsync(id);
+                return success ? Results.NoContent() : Results.NotFound();
+            })
+            .WithName("DeleteJob")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound);
         }
     }
 }
