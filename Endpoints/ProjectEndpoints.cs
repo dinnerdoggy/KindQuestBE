@@ -1,7 +1,7 @@
 ﻿using KindQuest.Models;
 using KindQuest.Interfaces;
 
-namespace KindQuestBE.EndPoints
+namespace KindQuest.EndPoints
 {
     public static class ProjectEndpoints
     {
