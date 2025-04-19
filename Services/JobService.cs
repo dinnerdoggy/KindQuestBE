@@ -2,7 +2,8 @@ using KindQuest.Models;
 using KindQuest.Repositories;
 using KindQuest.Interfaces;
 using KindQuest.Data;
-namespace KindQuestBE.Services
+using Microsoft.EntityFrameworkCore;
+namespace KindQuest.Services
 {
     public class JobService : IJobRepository
     {
@@ -32,11 +33,11 @@ namespace KindQuestBE.Services
             {
                 return null;
             }
-            existingJob.Title = job.Title;
-            existingJob.Description = job.Description;
-            existingJob.Company = job.Company;
-            existingJob.Location = job.Location;
-            existingJob.Salary = job.Salary;
+            existingJob.JobName = job.JobName;
+            existingJob.JobDescription = job.JobDescription;
+            existingJob.DatePosted = job.DatePosted;
+            existingJob.DateCompleted = job.DateCompleted;
+            existingJob.IsCompleted = job.IsCompleted;
             await _context.SaveChangesAsync();
             return existingJob;
         }

@@ -1,6 +1,7 @@
 ﻿using KindQuest.Models;
 using KindQuest.Interfaces;
 using KindQuest.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace KindQuest.Services
 {
@@ -30,9 +31,9 @@ namespace KindQuest.Services
             {
                 return null;
             }
-            existingUser.Name = user.Name;
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
             existingUser.Email = user.Email;
-            existingUser.Password = user.Password;
             await _context.SaveChangesAsync();
             return existingUser;
         }

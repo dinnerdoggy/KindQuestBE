@@ -31,10 +31,10 @@ namespace KindQuest.Services
             {
                 return null;
             }
-            existingProject.Name = project.Name;
-            existingProject.Description = project.Description;
-            existingProject.StartDate = project.StartDate;
-            existingProject.EndDate = project.EndDate;
+            existingProject.ProjectName = project.ProjectName;
+            existingProject.ProjectDescription = project.ProjectDescription;
+            existingProject.DatePosted = project.DatePosted;
+            existingProject.DateCompleted = project.DateCompleted;
             await _context.SaveChangesAsync();
             return existingProject;
         }
