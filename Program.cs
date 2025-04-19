@@ -21,10 +21,13 @@ builder.Services.AddDbContext<KindQuestDbContext>(options => options.UseNpgsql(c
 // DI (Dependency Injection) is a design pattern that allows us to develop loosely coupled code.
 // Loosely coupled code is code where the classes and objects are independent of each other.
 // This makes the code easier to maintain, test, and extend.
-builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IJobRepository, JobService>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 
-builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IProjectRepository, ProjectService>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 
 
