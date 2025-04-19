@@ -69,8 +69,7 @@ namespace KindQuestBE.Migrations
                     JobDescription = table.Column<string>(type: "text", nullable: true),
                     DatePosted = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateCompleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
-                    ProjectId1 = table.Column<int>(type: "integer", nullable: true)
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,11 +80,6 @@ namespace KindQuestBE.Migrations
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Jobs_Projects_ProjectId1",
-                        column: x => x.ProjectId1,
-                        principalTable: "Projects",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Jobs_Users_UserId",
                         column: x => x.UserId,
@@ -126,22 +120,17 @@ namespace KindQuestBE.Migrations
             migrationBuilder.InsertData(
                 table: "Projects",
                 columns: new[] { "Id", "DateCompleted", "DatePosted", "IsCompleted", "Location", "ProjectDescription", "ProjectImg", "ProjectName", "TaskList", "UserId" },
-                values: new object[] { 1, new DateTime(2025, 4, 22, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2025, 4, 17, 0, 0, 0, 0, DateTimeKind.Local), false, "Central Park", "Help clean up the local park.", "https://example.com/cleanup.jpg", "Neighborhood Cleanup", null, 1 });
+                values: new object[] { 1, new DateTime(2025, 4, 24, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3139), new DateTime(2025, 4, 19, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3138), false, "Central Park", "Help clean up the local park.", "https://example.com/cleanup.jpg", "Neighborhood Cleanup", null, 1 });
 
             migrationBuilder.InsertData(
                 table: "Jobs",
-                columns: new[] { "Id", "DateCompleted", "DatePosted", "IsCompleted", "JobDescription", "JobName", "ProjectId", "ProjectId1", "UserId" },
-                values: new object[] { 1, new DateTime(2025, 4, 18, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2025, 4, 17, 0, 0, 0, 0, DateTimeKind.Local), false, "Collect litter from the ground.", "Pick up trash", 1, null, 1 });
+                columns: new[] { "Id", "DateCompleted", "DatePosted", "IsCompleted", "JobDescription", "JobName", "ProjectId", "UserId" },
+                values: new object[] { 1, new DateTime(2025, 4, 20, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3171), new DateTime(2025, 4, 19, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3170), false, "Collect litter from the ground.", "Pick up trash", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_ProjectId",
                 table: "Jobs",
                 column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Jobs_ProjectId1",
-                table: "Jobs",
-                column: "ProjectId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_UserId",

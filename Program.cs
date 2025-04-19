@@ -13,7 +13,7 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddUserSecrets<Program>();
 }
 
-var connectionString = builder.Configuration.GetConnectionString("KindQuestDbConnection");
+var connectionString = builder.Configuration.GetConnectionString("KindQuestDbConnectionString");
 builder.Services.AddDbContext<KindQuestDbContext>(options => options.UseNpgsql(connectionString));
 
 // Here we are registering the services and repositories with the DI container.

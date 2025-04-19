@@ -34,7 +34,7 @@ public class KindQuestDbContext : DbContext
         // One-to-Many: Project -> Jobs
         modelBuilder.Entity<Job>()
             .HasOne(j => j.Project)
-            .WithMany()
+            .WithMany(p => p.Jobs)
             .HasForeignKey(j => j.ProjectId);
 
         // Seed Users
@@ -44,12 +44,12 @@ public class KindQuestDbContext : DbContext
 
         // Seed Projects
         modelBuilder.Entity<Project>().HasData(
-            new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg" }
+            new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.UtcNow, DateCompleted = DateTime.UtcNow.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg" }
         );
 
         // Seed Jobs
         modelBuilder.Entity<Job>().HasData(
-            new Job { Id = 1, ProjectId = 1, UserId = 1, JobName = "Pick up trash", JobDescription = "Collect litter from the ground.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(1), IsCompleted = false }
+            new Job { Id = 1, ProjectId = 1, UserId = 1, JobName = "Pick up trash", JobDescription = "Collect litter from the ground.", DatePosted = DateTime.UtcNow, DateCompleted = DateTime.UtcNow.AddDays(1), IsCompleted = false }
         );
     }
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindQuestBE.Migrations
 {
     [DbContext(typeof(KindQuestDbContext))]
-    [Migration("20250418021448_InitialCreate")]
+    [Migration("20250419150153_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -51,17 +51,12 @@ namespace KindQuestBE.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ProjectId1")
-                        .HasColumnType("integer");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("ProjectId1");
 
                     b.HasIndex("UserId");
 
@@ -71,8 +66,8 @@ namespace KindQuestBE.Migrations
                         new
                         {
                             Id = 1,
-                            DateCompleted = new DateTime(2025, 4, 18, 0, 0, 0, 0, DateTimeKind.Local),
-                            DatePosted = new DateTime(2025, 4, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCompleted = new DateTime(2025, 4, 20, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3171),
+                            DatePosted = new DateTime(2025, 4, 19, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3170),
                             IsCompleted = false,
                             JobDescription = "Collect litter from the ground.",
                             JobName = "Pick up trash",
@@ -126,8 +121,8 @@ namespace KindQuestBE.Migrations
                         new
                         {
                             Id = 1,
-                            DateCompleted = new DateTime(2025, 4, 22, 0, 0, 0, 0, DateTimeKind.Local),
-                            DatePosted = new DateTime(2025, 4, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCompleted = new DateTime(2025, 4, 24, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3139),
+                            DatePosted = new DateTime(2025, 4, 19, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3138),
                             IsCompleted = false,
                             Location = "Central Park",
                             ProjectDescription = "Help clean up the local park.",
@@ -198,14 +193,10 @@ namespace KindQuestBE.Migrations
             modelBuilder.Entity("KindQuest.Models.Job", b =>
                 {
                     b.HasOne("KindQuest.Models.Project", "Project")
-                        .WithMany()
+                        .WithMany("Jobs")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("KindQuest.Models.Project", null)
-                        .WithMany("Tasks")
-                        .HasForeignKey("ProjectId1");
 
                     b.HasOne("KindQuest.Models.User", "User")
                         .WithMany("Jobs")
@@ -246,7 +237,7 @@ namespace KindQuestBE.Migrations
 
             modelBuilder.Entity("KindQuest.Models.Project", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("KindQuest.Models.User", b =>

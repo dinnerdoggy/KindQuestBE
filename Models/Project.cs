@@ -15,5 +15,5 @@ public class Project
 
     public User? Creator { get; set; }
     public List<User>? Volunteers { get; set; }
-    public List<Job>? Tasks { get; set; }
+    public List<Job>? Jobs { get; set; }
 }
