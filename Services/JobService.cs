@@ -1,62 +1,35 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using KindQuest.Interfaces;
 using KindQuest.Models;
-using KindQuest.Data;
-using KindQuest.Interfaces;
 
-namespace KindQuest.Services
+public class JobService : IJobService
 {
-    public class JobService : IJobRepository
+    private readonly IJobRepository _jobRepository;
+
+    public JobService(IJobRepository jobRepository) => _jobRepository = jobRepository;
+
+
+    public async Task<IEnumerable<Job>> GetAllAsync()
     {
-        private readonly KindQuestDbContext _context;
-        public JobService(KindQuestDbContext context)
-        {
-            _context = context;
-        }
-        public async Task<IEnumerable<Job>> GetAllAsync()
-        {
-            return await _context.Jobs.ToListAsync();
-        }
-        public async Task<Job> GetByIdAsync(int id)
-        {
-            if (id <= 0)
-            {
-                return (Job)Results.BadRequest("Job Id Not Found");
-            }
-            var job = await _context.Jobs.FindAsync(id);
-            if (job == null)
-            {
-                return (Job)Results.BadRequest("Job Not Found");
-            }
-            return job;
-        }
-        public async Task<Job> CreateAsync(Job job)
-        {
-            _context.Jobs.Add(job);
-            await _context.SaveChangesAsync();
-            return job;
-        }
-        public async Task<Job> UpdateAsync(int id, Job job)
-        {
-            var existingJob = await _context.Jobs.FindAsync(id);
-            if (existingJob == null)
-            {
-                return null;
-            }
-            existingJob.JobName = job.JobName;
-            existingJob.JobDescription = job.JobDescription;
-            await _context.SaveChangesAsync();
-            return existingJob;
-        }
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var job = await _context.Jobs.FindAsync(id);
-            if (job == null)
-            {
-                return false;
-            }
-            _context.Jobs.Remove(job);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        return await _jobRepository.GetAllAsync();
+    }
+
+    public async Task<Job?> GetByIdAsync(int id)
+    {
+        return await _jobRepository.GetByIdAsync(id);
+    }
+
+    public async Task<Job> CreateAsync(Job job)
+    {
+        return await _jobRepository.CreateAsync(job);
+    }
+
+    public async Task<Job?> UpdateAsync(int id, Job job)
+    {
+        return await _jobRepository.UpdateAsync(id, job);
+    }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        return await _jobRepository.DeleteAsync(id);
     }
 }

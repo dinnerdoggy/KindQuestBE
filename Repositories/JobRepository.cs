@@ -37,7 +37,7 @@ namespace KindQuest.Repositories
             var existingJob = await _context.Jobs.FindAsync(id);
             if (existingJob == null)
             {
-                return null;
+                return (Job)Results.BadRequest("Job Not Found");
             }
             existingJob.JobName = job.JobName;
             existingJob.JobDescription = job.JobDescription;

@@ -1,63 +1,78 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using KindQuest.Models;
 using KindQuest.Interfaces;
-using KindQuest.Data;
+
 
 namespace KindQuest.Services
 {
-    public class UserService : IUserRepository
+    public class UserService : IUserService
     {
-        private readonly KindQuestDbContext _context;
-        public UserService(KindQuestDbContext context) => _context = context;
+        private readonly IUserRepository _userRepository;
+        public UserService(IUserRepository userRepository) => _userRepository = userRepository;
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-           if (id <= 0)
+            if (id <= 0)
             {
                 return (User)Results.BadRequest("User Id Not Found");
             }
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null)
             {
                 return (User)Results.BadRequest("User Not Found");
             }
             return user;
         }
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            var users = await _userRepository.GetAllUsersAsync();
+            if (users == null || !users.Any())
+            {
+                throw new InvalidOperationException("No Users Found");
+            }
+            return users;
         }
         public async Task<User> CreateUserAsync(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return user;
-        }
-        public async Task<User> UpdateUserAsync(int id, User user)
-        {
-            var existingUser = await _context.Users.FindAsync(id);
-            if (existingUser == null)
+            if (user == null)
             {
                 return (User)Results.BadRequest("User Not Found");
             }
-            existingUser.FirstName = user.LastName;
-            existingUser.Email = user.Email;
-            await _context.SaveChangesAsync();
-            return existingUser;
+            var createdUser = await _userRepository.CreateUserAsync(user);
+            if (createdUser == null)
+            {
+                return (User)Results.BadRequest("User Not Created");
+            }
+            return createdUser;
         }
 
-        public async Task<bool> DeleteUserAsync(int id)
+        public async Task<User> UpdateUserAsync(User user)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            if (user == null || user.Id <= 0)
             {
-                return false;
+                return (User)Results.BadRequest("Invalid User Data");
             }
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return true;
+            var updatedUser = await _userRepository.UpdateUserAsync(user.Id, user);
+            if (updatedUser == null)
+            {
+                return (User)Results.BadRequest("User Not Updated");
+            }
+            return updatedUser;
+        }
+        public async Task DeleteUserAsync(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid User Id");
+            }
+
+            var deleted = await _userRepository.DeleteUserAsync(id);
+            if (!deleted)
+            {
+                throw new InvalidOperationException("User could not be deleted");
+            }
         }
     }
-}
+ }
 
 

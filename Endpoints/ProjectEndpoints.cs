@@ -7,33 +7,33 @@ namespace KindQuest.EndPoints
     {
         public static void MapProjectEndpoints(this IEndpointRouteBuilder routes)
         {
-            routes.MapGet("/projects", async (IProjectRepository repo) =>
+            routes.MapGet("/projects", async (IProjectService repo) =>
             {
                 return await repo.GetAllAsync();
             })
             .WithName("GetAllProjects")
             .Produces<List<Project>>(StatusCodes.Status200OK);
-            routes.MapGet("/projects/{id}", async (IProjectRepository repo, int id) =>
+            routes.MapGet("/projects/{id}", async (IProjectService repo, int id) =>
             {
                 return await repo.GetByIdAsync(id);
             })
             .WithName("GetProjectById")
             .Produces<Project>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
-            routes.MapPost("/projects", async (IProjectRepository repo, Project project) =>
+            routes.MapPost("/projects", async (IProjectService repo, Project project) =>
             {
                 return await repo.CreateAsync(project);
             })
             .WithName("CreateProject")
             .Produces<Project>(StatusCodes.Status201Created);
-            routes.MapPut("/projects/{id}", async (IProjectRepository repo, int id, Project project) =>
+            routes.MapPut("/projects/{id}", async (IProjectService repo, int id, Project project) =>
             {
                 return await repo.UpdateAsync(id, project);
             })
             .WithName("UpdateProject")
             .Produces<Project>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
-            routes.MapDelete("/projects/{id}", async (IProjectRepository repo, int id) =>
+            routes.MapDelete("/projects/{id}", async (IProjectService repo, int id) =>
             {
                 return await repo.DeleteAsync(id);
             })
