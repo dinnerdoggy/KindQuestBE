@@ -1,7 +1,5 @@
 ﻿using KindQuest.Models;
-using Microsoft.EntityFrameworkCore;
 using KindQuest.Interfaces;
-using KindQuest.Data;
 
 namespace KindQuest.Services
 {
@@ -21,7 +19,7 @@ namespace KindQuest.Services
             {
                 return (Project)Results.BadRequest("Id not found");
             }
-            var project = await _projectRepository.GetByIdAsync(id); // Fixed the incorrect usage of FindAsync    
+            var project = await _projectRepository.GetByIdAsync(id);    
             if (project == null)
             {
                 return (Project)Results.BadRequest("Project not found");
@@ -31,19 +29,19 @@ namespace KindQuest.Services
 
         public async Task<Project> CreateAsync(Project project)
         {
-            // FIX: Use the CreateAsync method from IProjectRepository instead of accessing a non-existent 'Projects' property  
+             
             return await _projectRepository.CreateAsync(project);
         }
 
         public async Task<Project> UpdateAsync(int id, Project project)
         {
-            // FIX: Use the UpdateAsync method from IProjectRepository instead of accessing a non-existent 'Projects' property  
+              
             return await _projectRepository.UpdateAsync(id, project);
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            // FIX: Use the DeleteAsync method from IProjectRepository instead of accessing a non-existent 'Projects' property  
+              
             return await _projectRepository.DeleteAsync(id);
         }
     }
