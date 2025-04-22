@@ -11,7 +11,6 @@ public class Project
     public bool IsCompleted { get; set; }
     public string Location { get; set; }
     public string ProjectImg { get; set; }
-    public string JobList { get; set; }
 
     public User? Creator { get; set; }
     public List<User>? Volunteers { get; set; }
