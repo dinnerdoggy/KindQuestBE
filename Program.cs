@@ -3,9 +3,14 @@ using KindQuest.Data;
 using KindQuest.Interfaces;
 using KindQuest.Repositories;
 using KindQuest.Services;
+<<<<<<< HEAD
 using KindQuest.Endpoints;
 using KindQuest.EndPoints;
 
+=======
+using KindQuest.EndPoints;
+using KindQuest.Endpoints;
+>>>>>>> 93f14f79531ce93b1ae285c955913a3a2a1a1297
 
 var builder = WebApplication.CreateBuilder(args);
 // Add configuration to read from user secrets when in development
@@ -22,8 +27,18 @@ builder.Services.AddDbContext<KindQuestDbContext>(options => options.UseNpgsql(c
 // DI (Dependency Injection) is a design pattern that allows us to develop loosely coupled code.
 // Loosely coupled code is code where the classes and objects are independent of each other.
 // This makes the code easier to maintain, test, and extend.
+<<<<<<< HEAD
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IJobService, JobService>();
+=======
+builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IJobRepository, JobService>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+
+builder.Services.AddScoped<IProjectRepository, ProjectService>();
+>>>>>>> 93f14f79531ce93b1ae285c955913a3a2a1a1297
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -67,8 +82,11 @@ app.UseHttpsRedirection();
 app.MapProjectEndpoints();
 app.MapJobEndpoints();
 app.MapUserEndpoints();
+<<<<<<< HEAD
 app.MapProjectEndpoints();
 app.MapJobEndpoints();
 app.MapUserEndpoints();
+=======
+>>>>>>> 93f14f79531ce93b1ae285c955913a3a2a1a1297
 
 app.Run();
