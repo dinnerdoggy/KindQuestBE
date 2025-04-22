@@ -1,5 +1,5 @@
-using KindQuest.Interfaces;
 using KindQuest.Models;
+using KindQuest.Interfaces;
 
 namespace KindQuest.Endpoints;
 

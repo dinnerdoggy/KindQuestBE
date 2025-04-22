@@ -2,8 +2,9 @@ using KindQuest.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace KindQuest.Data;
-public class KindQuestDbContext : DbContext
-{
+
+  public class KindQuestDbContext : DbContext
+  {
     public DbSet<User> Users { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<Job> Jobs { get; set; }
@@ -52,4 +53,5 @@ public class KindQuestDbContext : DbContext
             new Job { Id = 1, ProjectId = 1, UserId = 1, JobName = "Pick up trash", JobDescription = "Collect litter from the ground.", DatePosted = DateTime.UtcNow, DateCompleted = DateTime.UtcNow.AddDays(1), IsCompleted = false }
         );
     }
-}
+  }
+

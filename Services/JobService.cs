@@ -1,4 +1,4 @@
-﻿using KindQuest.Interfaces;
+using KindQuest.Interfaces;
 using KindQuest.Models;
 
 public class JobService : IJobService

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using KindQuest.Models;
 using KindQuest.Interfaces;
+using KindQuest.Data;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace KindQuest.Services
@@ -74,5 +76,3 @@ namespace KindQuest.Services
         }
     }
  }
-
-

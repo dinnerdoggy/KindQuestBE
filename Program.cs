@@ -67,5 +67,8 @@ app.UseHttpsRedirection();
 app.MapProjectEndpoints();
 app.MapJobEndpoints();
 app.MapUserEndpoints();
+app.MapProjectEndpoints();
+app.MapJobEndpoints();
+app.MapUserEndpoints();
 
 app.Run();
