@@ -14,25 +14,45 @@ namespace KindQuest.Data
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-      // Configure many-to-many: User <-> Project
-      modelBuilder.Entity<User>()
-          .HasMany(u => u.Projects)
-          .WithMany(p => p.Volunteers);
+        // One-to-Many: User (creator) -> Projects
+        modelBuilder.Entity<Project>()
+            .HasOne(p => p.Creator)
+            .WithMany(u => u.CreatedProjects)
+            .HasForeignKey(p => p.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
-      // Seed Users
-      modelBuilder.Entity<User>().HasData(
-          new User { Id = 1, Uid = "abc123", FirstName = "Alex", LastName = "Smith", Email = "alex@example.com", EmergencyContact = 1234567890, ProfilePic = "https://example.com/alex.jpg" }
-      );
+        // Many-to-Many: Users <-> Projects (volunteers)
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.VolunteeredProjects)
+            .WithMany(p => p.Volunteers)
+            .UsingEntity(j => j.ToTable("UserProjects"));
 
-      // Seed Projects
-      modelBuilder.Entity<Project>().HasData(
-          new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg", JobList = "Collect trash,Trim bushes" }
-      );
+        // One-to-Many: User -> Jobs
+        modelBuilder.Entity<Job>()
+            .HasOne(j => j.User)
+            .WithMany(u => u.Jobs)
+            .HasForeignKey(j => j.UserId);
 
-      // Seed Jobs
-      modelBuilder.Entity<Job>().HasData(
-          new Job { Id = 1, ProjectId = 1, UserId = 1, JobName = "Pick up trash", JobDescription = "Collect litter from the ground.", DatePosted = DateTime.Today, DateCompleted = DateTime.Today.AddDays(1), IsCompleted = false }
-      );
+        // One-to-Many: Project -> Jobs
+        modelBuilder.Entity<Job>()
+            .HasOne(j => j.Project)
+            .WithMany(p => p.Jobs)
+            .HasForeignKey(j => j.ProjectId);
+
+        // Seed Users
+        modelBuilder.Entity<User>().HasData(
+            new User { Id = 1, Uid = "abc123", FirstName = "Alex", LastName = "Smith", Email = "alex@example.com", EmergencyContact = 1234567890, ProfilePic = "https://example.com/alex.jpg" }
+        );
+
+        // Seed Projects
+        modelBuilder.Entity<Project>().HasData(
+            new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.UtcNow, DateCompleted = DateTime.UtcNow.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg" }
+        );
+
+        // Seed Jobs
+        modelBuilder.Entity<Job>().HasData(
+            new Job { Id = 1, ProjectId = 1, UserId = 1, JobName = "Pick up trash", JobDescription = "Collect litter from the ground.", DatePosted = DateTime.UtcNow, DateCompleted = DateTime.UtcNow.AddDays(1), IsCompleted = false }
+        );
     }
   }
 }
