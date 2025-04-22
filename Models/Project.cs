@@ -13,13 +13,7 @@ public class Project
     public string ProjectImg { get; set; }
     public string JobList { get; set; }
 
-<<<<<<< HEAD
     public User? Creator { get; set; }
     public List<User>? Volunteers { get; set; }
     public List<Job>? Jobs { get; set; }
-=======
-    public User User { get; set; }
-    public List<User> Volunteers { get; set; }
-    public List<Job> Jobs { get; set; }
->>>>>>> 93f14f79531ce93b1ae285c955913a3a2a1a1297
 }

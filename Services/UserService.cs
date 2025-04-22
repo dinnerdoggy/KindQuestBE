@@ -1,13 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using KindQuest.Models;
+﻿using KindQuest.Models;
 using KindQuest.Interfaces;
-using KindQuest.Data;
-using Microsoft.EntityFrameworkCore;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 93f14f79531ce93b1ae285c955913a3a2a1a1297
 namespace KindQuest.Services
 {
     public class UserService : IUserService
@@ -21,20 +14,7 @@ namespace KindQuest.Services
             {
                 return (User)Results.BadRequest("User Id Not Found");
             }
-<<<<<<< HEAD
             var user = await _userRepository.GetUserByIdAsync(id);
-=======
-            existingUser.FirstName = user.FirstName;
-            existingUser.LastName = user.LastName;
-            existingUser.Email = user.Email;
-            await _context.SaveChangesAsync();
-            return existingUser;
-        }
-
-        public async Task<bool> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
->>>>>>> 93f14f79531ce93b1ae285c955913a3a2a1a1297
             if (user == null)
             {
                 return (User)Results.BadRequest("User Not Found");
@@ -91,8 +71,4 @@ namespace KindQuest.Services
             }
         }
     }
-<<<<<<< HEAD
  }
-=======
-}
->>>>>>> 93f14f79531ce93b1ae285c955913a3a2a1a1297
