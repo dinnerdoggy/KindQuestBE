@@ -63,13 +63,9 @@ namespace KindQuestBE.Migrations
                         new
                         {
                             Id = 1,
-<<<<<<< HEAD
+
                             DateCompleted = new DateTime(2025, 4, 23, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8295),
                             DatePosted = new DateTime(2025, 4, 22, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8294),
-=======
-                            DateCompleted = new DateTime(2025, 4, 23, 23, 39, 36, 310, DateTimeKind.Utc).AddTicks(9751),
-                            DatePosted = new DateTime(2025, 4, 22, 23, 39, 36, 310, DateTimeKind.Utc).AddTicks(9751),
->>>>>>> 6730f3214bed6b5ff7e8c2d2cd4895339df62b72
                             IsCompleted = false,
                             JobDescription = "Collect litter from the ground.",
                             JobName = "Pick up trash",
@@ -122,13 +118,8 @@ namespace KindQuestBE.Migrations
                         new
                         {
                             Id = 1,
-<<<<<<< HEAD
                             DateCompleted = new DateTime(2025, 4, 27, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8268),
                             DatePosted = new DateTime(2025, 4, 22, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8265),
-=======
-                            DateCompleted = new DateTime(2025, 4, 27, 23, 39, 36, 310, DateTimeKind.Utc).AddTicks(9715),
-                            DatePosted = new DateTime(2025, 4, 22, 23, 39, 36, 310, DateTimeKind.Utc).AddTicks(9711),
->>>>>>> 6730f3214bed6b5ff7e8c2d2cd4895339df62b72
                             IsCompleted = false,
                             Location = "Central Park",
                             ProjectDescription = "Help clean up the local park.",
