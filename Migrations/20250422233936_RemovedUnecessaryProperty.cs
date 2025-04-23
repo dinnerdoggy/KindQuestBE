@@ -11,10 +11,6 @@ namespace KindQuestBE.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "TaskList",
-                table: "Projects");
-
             migrationBuilder.AlterColumn<string>(
                 name: "ProjectImg",
                 table: "Projects",
