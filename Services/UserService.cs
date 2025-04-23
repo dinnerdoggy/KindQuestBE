@@ -44,8 +44,12 @@ namespace KindQuest.Services
             return createdUser;
         }
 
-        public async Task<User> UpdateUserAsync(User user)
+        public async Task<User> UpdateUserAsync(int id, User user)
         {
+            if (id <= 0)
+            {
+                return (User)Results.BadRequest("Invalid User Id");
+            }
             if (user == null || user.Id <= 0)
             {
                 return (User)Results.BadRequest("Invalid User Data");
@@ -57,7 +61,7 @@ namespace KindQuest.Services
             }
             return updatedUser;
         }
-        public async Task DeleteUserAsync(int id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
             if (id <= 0)
             {
@@ -69,6 +73,8 @@ namespace KindQuest.Services
             {
                 throw new InvalidOperationException("User could not be deleted");
             }
+
+            return await _userRepository.DeleteUserAsync(id);
         }
     }
- }
+}
