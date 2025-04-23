@@ -6,11 +6,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KindQuestBE.Migrations
 {
     /// <inheritdoc />
-    public partial class RemovedUnecessaryProperty : Migration
+    public partial class UpdateDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "TaskList",
+                table: "Projects");
+
             migrationBuilder.AlterColumn<string>(
                 name: "ProjectImg",
                 table: "Projects",
@@ -36,14 +40,14 @@ namespace KindQuestBE.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 columns: new[] { "DateCompleted", "DatePosted" },
-                values: new object[] { new DateTime(2025, 4, 23, 23, 39, 36, 310, DateTimeKind.Utc).AddTicks(9751), new DateTime(2025, 4, 22, 23, 39, 36, 310, DateTimeKind.Utc).AddTicks(9751) });
+                values: new object[] { new DateTime(2025, 4, 23, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8295), new DateTime(2025, 4, 22, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8294) });
 
             migrationBuilder.UpdateData(
                 table: "Projects",
                 keyColumn: "Id",
                 keyValue: 1,
                 columns: new[] { "DateCompleted", "DatePosted" },
-                values: new object[] { new DateTime(2025, 4, 27, 23, 39, 36, 310, DateTimeKind.Utc).AddTicks(9715), new DateTime(2025, 4, 22, 23, 39, 36, 310, DateTimeKind.Utc).AddTicks(9711) });
+                values: new object[] { new DateTime(2025, 4, 27, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8268), new DateTime(2025, 4, 22, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8265) });
         }
 
         /// <inheritdoc />

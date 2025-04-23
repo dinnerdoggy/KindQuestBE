@@ -3,6 +3,7 @@ using System;
 using KindQuest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindQuestBE.Migrations
 {
     [DbContext(typeof(KindQuestDbContext))]
-    partial class KindQuestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250422233449_UpdateDatabase")]
+    partial class UpdateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,8 +66,8 @@ namespace KindQuestBE.Migrations
                         new
                         {
                             Id = 1,
-                            DateCompleted = new DateTime(2025, 4, 24, 1, 38, 47, 646, DateTimeKind.Utc).AddTicks(6512),
-                            DatePosted = new DateTime(2025, 4, 23, 1, 38, 47, 646, DateTimeKind.Utc).AddTicks(6511),
+                            DateCompleted = new DateTime(2025, 4, 23, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8295),
+                            DatePosted = new DateTime(2025, 4, 22, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8294),
                             IsCompleted = false,
                             JobDescription = "Collect litter from the ground.",
                             JobName = "Pick up trash",
@@ -117,8 +120,8 @@ namespace KindQuestBE.Migrations
                         new
                         {
                             Id = 1,
-                            DateCompleted = new DateTime(2025, 4, 28, 1, 38, 47, 646, DateTimeKind.Utc).AddTicks(6485),
-                            DatePosted = new DateTime(2025, 4, 23, 1, 38, 47, 646, DateTimeKind.Utc).AddTicks(6482),
+                            DateCompleted = new DateTime(2025, 4, 27, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8268),
+                            DatePosted = new DateTime(2025, 4, 22, 23, 34, 48, 157, DateTimeKind.Utc).AddTicks(8265),
                             IsCompleted = false,
                             Location = "Central Park",
                             ProjectDescription = "Help clean up the local park.",
