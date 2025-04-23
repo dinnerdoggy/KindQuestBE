@@ -40,8 +40,22 @@ namespace KindQuest.Repositories
             {
                 return (Project)Results.BadRequest("Project not found");
             }
+            if (project == null)
+            {
+                return (Project)Results.BadRequest("Project cannot be null");
+            }
+            existingProject.UserId = project.UserId;
             existingProject.ProjectName = project.ProjectName;
             existingProject.ProjectDescription = project.ProjectDescription;
+            existingProject.DatePosted = project.DatePosted;
+            existingProject.DateCompleted = project.DateCompleted;
+            existingProject.IsCompleted = project.IsCompleted;
+            existingProject.Location = project.Location;
+            existingProject.ProjectImg = project.ProjectImg;
+            existingProject.Creator = project.Creator;
+            existingProject.Volunteers = project.Volunteers;
+            existingProject.Jobs = project.Jobs;
+            _context.Projects.Update(existingProject);
             await _context.SaveChangesAsync();
             return existingProject;
         }

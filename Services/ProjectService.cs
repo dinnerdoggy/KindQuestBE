@@ -13,35 +13,32 @@ namespace KindQuest.Services
             return await _projectRepository.GetAllAsync();
         }
 
-        public async Task<Project> GetByIdAsync(int id)
+        public async Task<Project?> GetByIdAsync(int id)
         {
             if (id <= 0)
             {
-                return (Project)Results.BadRequest("Id not found");
+                return null;
             }
-            var project = await _projectRepository.GetByIdAsync(id);    
+            var project = await _projectRepository.GetByIdAsync(id);
             if (project == null)
             {
-                return (Project)Results.BadRequest("Project not found");
+                return null;
             }
             return project;
         }
 
         public async Task<Project> CreateAsync(Project project)
         {
-             
             return await _projectRepository.CreateAsync(project);
         }
 
-        public async Task<Project> UpdateAsync(int id, Project project)
+        public async Task<Project?> UpdateAsync(int id, Project project)
         {
-              
             return await _projectRepository.UpdateAsync(id, project);
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-              
             return await _projectRepository.DeleteAsync(id);
         }
     }
