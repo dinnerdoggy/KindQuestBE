@@ -3,7 +3,7 @@ namespace KindQuest.Models;
 public class Project
 {
     public int Id { get; set; }
-    public int UserId { get; set; }
+    public string Uid { get; set; }
     public string? ProjectName { get; set; }
     public string? ProjectDescription { get; set; }
     public DateTime DatePosted { get; set; }
@@ -12,6 +12,7 @@ public class Project
     public string Location { get; set; }
     public string ProjectImg { get; set; }
 
+    public string CreatorUid { get; set; }
     public User? Creator { get; set; }
     public List<User>? Volunteers { get; set; }
     public List<Job>? Jobs { get; set; }
