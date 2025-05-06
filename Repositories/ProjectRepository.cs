@@ -29,6 +29,18 @@ namespace KindQuest.Repositories
         }
         public async Task<Project> CreateAsync(Project project)
         {
+            if (string.IsNullOrEmpty(project.CreatorUid))
+            {
+                throw new ArgumentException("CreatorUid cannot be null or empty.", nameof(project.CreatorUid));
+            }
+
+            var existingUser = await _context.Users.AnyAsync(u => u.Uid == project.CreatorUid);
+            if (!existingUser)
+            {
+                throw new InvalidOperationException($"User with Uid '{project.CreatorUid}' does not exist.");
+            }
+
+            
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
             return project;
@@ -44,7 +56,7 @@ namespace KindQuest.Repositories
             {
                 return (Project)Results.BadRequest("Project cannot be null");
             }
-            existingProject.UserId = project.UserId;
+            existingProject.Uid = project.Uid;
             existingProject.ProjectName = project.ProjectName;
             existingProject.ProjectDescription = project.ProjectDescription;
             existingProject.DatePosted = project.DatePosted;
