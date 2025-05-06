@@ -29,8 +29,10 @@ namespace KindQuest.Services
 
         public async Task<Project> CreateAsync(Project project)
         {
-            return await _projectRepository.CreateAsync(project);
+            var createdProject = await _projectRepository.CreateAsync(project);
+            return createdProject; // Ensure the created project is returned
         }
+
 
         public async Task<Project?> UpdateAsync(int id, Project project)
         {

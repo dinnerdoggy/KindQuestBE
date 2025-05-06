@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindQuestBE.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace KindQuestBE.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Uid = table.Column<string>(type: "text", nullable: true),
+                    Uid = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: true),
@@ -28,6 +28,7 @@ namespace KindQuestBE.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.UniqueConstraint("AK_Users_Uid", x => x.Uid);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,24 +37,24 @@ namespace KindQuestBE.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Uid = table.Column<string>(type: "text", nullable: false),
                     ProjectName = table.Column<string>(type: "text", nullable: true),
                     ProjectDescription = table.Column<string>(type: "text", nullable: true),
                     DatePosted = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateCompleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Location = table.Column<string>(type: "text", nullable: true),
-                    ProjectImg = table.Column<string>(type: "text", nullable: true),
-                    TaskList = table.Column<string>(type: "text", nullable: true)
+                    Location = table.Column<string>(type: "text", nullable: false),
+                    ProjectImg = table.Column<string>(type: "text", nullable: false),
+                    CreatorUid = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Projects_Users_CreatorUid",
+                        column: x => x.CreatorUid,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "Uid",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -119,13 +120,13 @@ namespace KindQuestBE.Migrations
 
             migrationBuilder.InsertData(
                 table: "Projects",
-                columns: new[] { "Id", "DateCompleted", "DatePosted", "IsCompleted", "Location", "ProjectDescription", "ProjectImg", "ProjectName", "TaskList", "UserId" },
-                values: new object[] { 1, new DateTime(2025, 4, 24, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3139), new DateTime(2025, 4, 19, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3138), false, "Central Park", "Help clean up the local park.", "https://example.com/cleanup.jpg", "Neighborhood Cleanup", null, 1 });
+                columns: new[] { "Id", "CreatorUid", "DateCompleted", "DatePosted", "IsCompleted", "Location", "ProjectDescription", "ProjectImg", "ProjectName", "Uid" },
+                values: new object[] { 1, "abc123", new DateTime(2025, 5, 4, 1, 41, 49, 548, DateTimeKind.Utc).AddTicks(9606), new DateTime(2025, 4, 29, 1, 41, 49, 548, DateTimeKind.Utc).AddTicks(9602), false, "Central Park", "Help clean up the local park.", "https://example.com/cleanup.jpg", "Neighborhood Cleanup", "1" });
 
             migrationBuilder.InsertData(
                 table: "Jobs",
                 columns: new[] { "Id", "DateCompleted", "DatePosted", "IsCompleted", "JobDescription", "JobName", "ProjectId", "UserId" },
-                values: new object[] { 1, new DateTime(2025, 4, 20, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3171), new DateTime(2025, 4, 19, 15, 1, 53, 417, DateTimeKind.Utc).AddTicks(3170), false, "Collect litter from the ground.", "Pick up trash", 1, 1 });
+                values: new object[] { 1, new DateTime(2025, 4, 30, 1, 41, 49, 548, DateTimeKind.Utc).AddTicks(9636), new DateTime(2025, 4, 29, 1, 41, 49, 548, DateTimeKind.Utc).AddTicks(9635), false, "Collect litter from the ground.", "Pick up trash", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jobs_ProjectId",
@@ -138,14 +139,20 @@ namespace KindQuestBE.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_UserId",
+                name: "IX_Projects_CreatorUid",
                 table: "Projects",
-                column: "UserId");
+                column: "CreatorUid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserProjects_VolunteersId",
                 table: "UserProjects",
                 column: "VolunteersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Uid",
+                table: "Users",
+                column: "Uid",
+                unique: true);
         }
 
         /// <inheritdoc />
