@@ -14,11 +14,16 @@ namespace KindQuest.Data
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // One-to-Many: User (creator) -> Projects
-        modelBuilder.Entity<Project>()
+            modelBuilder.Entity<User>()
+            .HasIndex(u => u.Uid)
+            .IsUnique();
+
+            // One-to-Many: User (creator) -> Projects
+            modelBuilder.Entity<Project>()
             .HasOne(p => p.Creator)
             .WithMany(u => u.CreatedProjects)
-            .HasForeignKey(p => p.UserId)
+            .HasForeignKey(p => p.CreatorUid)
+            .HasPrincipalKey(u => u.Uid)
             .OnDelete(DeleteBehavior.Restrict);
 
         // Many-to-Many: Users <-> Projects (volunteers)
@@ -46,7 +51,7 @@ namespace KindQuest.Data
 
         // Seed Projects
         modelBuilder.Entity<Project>().HasData(
-            new Project { Id = 1, UserId = 1, ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.UtcNow, DateCompleted = DateTime.UtcNow.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg" }
+            new Project { Id = 1, Uid = "1", CreatorUid = "abc123", ProjectName = "Neighborhood Cleanup", ProjectDescription = "Help clean up the local park.", DatePosted = DateTime.UtcNow, DateCompleted = DateTime.UtcNow.AddDays(5), IsCompleted = false, Location = "Central Park", ProjectImg = "https://example.com/cleanup.jpg" }
         );
 
         // Seed Jobs

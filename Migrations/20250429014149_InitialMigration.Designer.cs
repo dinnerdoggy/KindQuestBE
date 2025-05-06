@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KindQuestBE.Migrations
 {
     [DbContext(typeof(KindQuestDbContext))]
-    [Migration("20250423013847_UpdateDbProjectTable")]
-    partial class UpdateDbProjectTable
+    [Migration("20250429014149_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,8 +66,8 @@ namespace KindQuestBE.Migrations
                         new
                         {
                             Id = 1,
-                            DateCompleted = new DateTime(2025, 4, 24, 1, 38, 47, 646, DateTimeKind.Utc).AddTicks(6512),
-                            DatePosted = new DateTime(2025, 4, 23, 1, 38, 47, 646, DateTimeKind.Utc).AddTicks(6511),
+                            DateCompleted = new DateTime(2025, 4, 30, 1, 41, 49, 548, DateTimeKind.Utc).AddTicks(9636),
+                            DatePosted = new DateTime(2025, 4, 29, 1, 41, 49, 548, DateTimeKind.Utc).AddTicks(9635),
                             IsCompleted = false,
                             JobDescription = "Collect litter from the ground.",
                             JobName = "Pick up trash",
@@ -83,6 +83,10 @@ namespace KindQuestBE.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatorUid")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("DateCompleted")
                         .HasColumnType("timestamp with time zone");
@@ -107,12 +111,13 @@ namespace KindQuestBE.Migrations
                     b.Property<string>("ProjectName")
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatorUid");
 
                     b.ToTable("Projects");
 
@@ -120,14 +125,15 @@ namespace KindQuestBE.Migrations
                         new
                         {
                             Id = 1,
-                            DateCompleted = new DateTime(2025, 4, 28, 1, 38, 47, 646, DateTimeKind.Utc).AddTicks(6485),
-                            DatePosted = new DateTime(2025, 4, 23, 1, 38, 47, 646, DateTimeKind.Utc).AddTicks(6482),
+                            CreatorUid = "abc123",
+                            DateCompleted = new DateTime(2025, 5, 4, 1, 41, 49, 548, DateTimeKind.Utc).AddTicks(9606),
+                            DatePosted = new DateTime(2025, 4, 29, 1, 41, 49, 548, DateTimeKind.Utc).AddTicks(9602),
                             IsCompleted = false,
                             Location = "Central Park",
                             ProjectDescription = "Help clean up the local park.",
                             ProjectImg = "https://example.com/cleanup.jpg",
                             ProjectName = "Neighborhood Cleanup",
-                            UserId = 1
+                            Uid = "1"
                         });
                 });
 
@@ -155,9 +161,13 @@ namespace KindQuestBE.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Uid")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Uid")
+                        .IsUnique();
 
                     b.ToTable("Users");
 
@@ -212,7 +222,8 @@ namespace KindQuestBE.Migrations
                 {
                     b.HasOne("KindQuest.Models.User", "Creator")
                         .WithMany("CreatedProjects")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CreatorUid")
+                        .HasPrincipalKey("Uid")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
