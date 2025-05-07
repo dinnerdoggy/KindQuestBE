@@ -1,6 +1,8 @@
 using KindQuest.Interfaces;
 using KindQuest.Models;
 
+namespace KindQuest.Services;
+
 public class JobService : IJobService
 {
     private readonly IJobRepository _jobRepository;
