@@ -8,16 +8,16 @@ namespace KindQuest.Services
         private readonly IUserRepository _userRepository;
         public UserService(IUserRepository userRepository) => _userRepository = userRepository;
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User?> GetUserByIdAsync(int id)
         {
             if (id <= 0)
             {
-                return (User)Results.BadRequest("User Id Not Found");
+            throw new ArgumentException("Invalid User Id", nameof(id));
             }
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null)
             {
-                return (User)Results.BadRequest("User Not Found");
+                return null;
             }
             return user;
         }
@@ -34,7 +34,7 @@ namespace KindQuest.Services
         {
             if (user == null)
             {
-                return (User)Results.BadRequest("User Not Found");
+                throw new ArgumentNullException(nameof(user), "Created User cannot be null");
             }
             var createdUser = await _userRepository.CreateUserAsync(user);
             if (createdUser == null)
@@ -48,16 +48,16 @@ namespace KindQuest.Services
         {
             if (id <= 0)
             {
-                return (User)Results.BadRequest("Invalid User Id");
+                throw new ArgumentException("Invalid User Id", nameof(id));
             }
             if (user == null || user.Id <= 0)
             {
-                return (User)Results.BadRequest("Invalid User Data");
+                throw new ArgumentNullException("Invalid User data", nameof(user));
             }
             var updatedUser = await _userRepository.UpdateUserAsync(user.Id, user);
             if (updatedUser == null)
             {
-                return (User)Results.BadRequest("User Not Updated");
+                throw new InvalidOperationException("User could not be updated");
             }
             return updatedUser;
         }
@@ -74,7 +74,7 @@ namespace KindQuest.Services
                 throw new InvalidOperationException("User could not be deleted");
             }
 
-            return await _userRepository.DeleteUserAsync(id);
+            return deleted;
         }
     }
 }
