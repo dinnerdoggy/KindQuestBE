@@ -5,6 +5,9 @@ using KindQuest.Repositories;
 using KindQuest.Services;
 using KindQuest.Endpoints;
 using KindQuest.EndPoints;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +31,14 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+// Set the JSON serializer options
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 
 
 // Add services to the container.

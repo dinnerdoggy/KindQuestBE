@@ -47,7 +47,10 @@ namespace KindQuest.Repositories
         }
         public async Task<Project> UpdateAsync(int id, Project project)
         {
-            var existingProject = await _context.Projects.FindAsync(id);
+            var existingProject = await _context.Projects
+           .Include(p => p.Volunteers)
+           .FirstOrDefaultAsync(p => p.Id == id);
+
             if (existingProject == null)
             {
                 return (Project)Results.BadRequest("Project not found");
@@ -56,6 +59,24 @@ namespace KindQuest.Repositories
             {
                 return (Project)Results.BadRequest("Project cannot be null");
             }
+            if (project.Volunteers != null && project.Volunteers.Any())
+            {
+                var volunteerIds = project.Volunteers.Select(v => v.Id).ToList();
+                var volunteers = await _context.Users
+                    .Where(u => volunteerIds.Contains(u.Id))
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                _context.Entry(existingProject).Collection(p => p.Volunteers).Load();
+                existingProject.Volunteers.Clear();
+
+                foreach (var volunteer in volunteers)
+                {
+                    _context.Attach(volunteer); // Explicitly attach the volunteer to avoid duplicate tracking
+                    existingProject.Volunteers.Add(volunteer);
+                }
+            }
+
             existingProject.Uid = project.Uid;
             existingProject.ProjectName = project.ProjectName;
             existingProject.ProjectDescription = project.ProjectDescription;
@@ -65,7 +86,6 @@ namespace KindQuest.Repositories
             existingProject.Location = project.Location;
             existingProject.ProjectImg = project.ProjectImg;
             existingProject.Creator = project.Creator;
-            existingProject.Volunteers = project.Volunteers;
             existingProject.Jobs = project.Jobs;
             _context.Projects.Update(existingProject);
             await _context.SaveChangesAsync();
