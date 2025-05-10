@@ -20,7 +20,10 @@ namespace KindQuest.Repositories
             {
                 return (Project)Results.BadRequest("Id not found");
             }
-            var project = await _context.Projects.FindAsync(id);
+            var project = await _context.Projects
+                .Include(p => p.Volunteers)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (project == null)
             {
                 return (Project)Results.BadRequest("Project not found");
